@@ -82,12 +82,12 @@ class GroupController extends Controller
     {
         $group = $this->findGroupBy('name', $groupName);
 
-        $event = new GetResponseGroupEvent($group, $request);
-        $this->eventDispatcher->dispatch(FOSUserEvents::GROUP_EDIT_INITIALIZE, $event);
-
-        if (null !== $event->getResponse()) {
-            return $event->getResponse();
-        }
+//        $event = new GetResponseGroupEvent($group, $request);
+//        $this->eventDispatcher->dispatch(FOSUserEvents::GROUP_EDIT_INITIALIZE, $event);
+//
+//        if (null !== $event->getResponse()) {
+//            return $event->getResponse();
+//        }
 
         $form = $this->formFactory->createForm();
         $form->setData($group);
@@ -95,17 +95,17 @@ class GroupController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $event = new FormEvent($form, $request);
-            $this->eventDispatcher->dispatch(FOSUserEvents::GROUP_EDIT_SUCCESS, $event);
+//            $event = new FormEvent($form, $request);
+//            $this->eventDispatcher->dispatch(FOSUserEvents::GROUP_EDIT_SUCCESS, $event);
 
             $this->groupManager->updateGroup($group);
 
-            if (null === $response = $event->getResponse()) {
+//            if (null === $response = $event->getResponse()) {
                 $url = $this->generateUrl('fos_user_group_show', ['groupName' => $group->getName()]);
                 $response = new RedirectResponse($url);
-            }
+//            }
 
-            $this->eventDispatcher->dispatch(FOSUserEvents::GROUP_EDIT_COMPLETED, new FilterGroupResponseEvent($group, $request, $response));
+//            $this->eventDispatcher->dispatch(FOSUserEvents::GROUP_EDIT_COMPLETED, new FilterGroupResponseEvent($group, $request, $response));
 
             return $response;
         }
@@ -133,17 +133,17 @@ class GroupController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $event = new FormEvent($form, $request);
-            $this->eventDispatcher->dispatch(FOSUserEvents::GROUP_CREATE_SUCCESS, $event);
+//            $event = new FormEvent($form, $request);
+//            $this->eventDispatcher->dispatch(FOSUserEvents::GROUP_CREATE_SUCCESS, $event);
 
             $this->groupManager->updateGroup($group);
 
-            if (null === $response = $event->getResponse()) {
+//            if (null === $response = $event->getResponse()) {
                 $url = $this->generateUrl('fos_user_group_show', ['groupName' => $group->getName()]);
                 $response = new RedirectResponse($url);
-            }
+//            }
 
-            $this->eventDispatcher->dispatch(FOSUserEvents::GROUP_CREATE_COMPLETED, new FilterGroupResponseEvent($group, $request, $response));
+//            $this->eventDispatcher->dispatch(FOSUserEvents::GROUP_CREATE_COMPLETED, new FilterGroupResponseEvent($group, $request, $response));
 
             return $response;
         }
@@ -167,7 +167,7 @@ class GroupController extends Controller
 
         $response = new RedirectResponse($this->generateUrl('fos_user_group_list'));
 
-        $this->eventDispatcher->dispatch(FOSUserEvents::GROUP_DELETE_COMPLETED, new FilterGroupResponseEvent($group, $request, $response));
+//        $this->eventDispatcher->dispatch(FOSUserEvents::GROUP_DELETE_COMPLETED, new FilterGroupResponseEvent($group, $request, $response));
 
         return $response;
     }

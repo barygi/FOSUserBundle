@@ -71,6 +71,8 @@ class ResettingController extends Controller
     /**
      * Request reset user password: submit form and send email.
      *
+     * @param Request $request
+     *
      * @return Response
      */
     public function sendEmailAction(Request $request)
@@ -79,42 +81,42 @@ class ResettingController extends Controller
 
         $user = $this->userManager->findUserByUsernameOrEmail($username);
 
-        $event = new GetResponseNullableUserEvent($user, $request);
-        $this->eventDispatcher->dispatch(FOSUserEvents::RESETTING_SEND_EMAIL_INITIALIZE, $event);
-
-        if (null !== $event->getResponse()) {
-            return $event->getResponse();
-        }
+////        $event = new GetResponseNullableUserEvent($user, $request);
+////        $this->eventDispatcher->dispatch(FOSUserEvents::RESETTING_SEND_EMAIL_INITIALIZE, $event);
+//
+//        if ($response = $request->getResponse()) {
+//            return $response;
+//        }
 
         if (null !== $user && !$user->isPasswordRequestNonExpired($this->retryTtl)) {
-            $event = new GetResponseUserEvent($user, $request);
-            $this->eventDispatcher->dispatch(FOSUserEvents::RESETTING_RESET_REQUEST, $event);
+//            $event = new GetResponseUserEvent($user, $request);
+//            $this->eventDispatcher->dispatch(FOSUserEvents::RESETTING_RESET_REQUEST, $event);
 
-            if (null !== $event->getResponse()) {
-                return $event->getResponse();
-            }
+//            if (null !== $event->getResponse()) {
+//                return $event->getResponse();
+//            }
 
             if (null === $user->getConfirmationToken()) {
                 $user->setConfirmationToken($this->tokenGenerator->generateToken());
             }
 
-            $event = new GetResponseUserEvent($user, $request);
-            $this->eventDispatcher->dispatch(FOSUserEvents::RESETTING_SEND_EMAIL_CONFIRM, $event);
-
-            if (null !== $event->getResponse()) {
-                return $event->getResponse();
-            }
+//            $event = new GetResponseUserEvent($user, $request);
+//            $this->eventDispatcher->dispatch(FOSUserEvents::RESETTING_SEND_EMAIL_CONFIRM, $event);
+//
+//            if (null !== $event->getResponse()) {
+//                return $event->getResponse();
+//            }
 
             $this->mailer->sendResettingEmailMessage($user);
             $user->setPasswordRequestedAt(new \DateTime());
             $this->userManager->updateUser($user);
 
-            $event = new GetResponseUserEvent($user, $request);
-            $this->eventDispatcher->dispatch(FOSUserEvents::RESETTING_SEND_EMAIL_COMPLETED, $event);
-
-            if (null !== $event->getResponse()) {
-                return $event->getResponse();
-            }
+//            $event = new GetResponseUserEvent($user, $request);
+//            $this->eventDispatcher->dispatch(FOSUserEvents::RESETTING_SEND_EMAIL_COMPLETED, $event);
+//
+//            if (null !== $event->getResponse()) {
+//                return $event->getResponse();
+//            }
         }
 
         return new RedirectResponse($this->generateUrl('fos_user_resetting_check_email', ['username' => $username]));
@@ -154,12 +156,12 @@ class ResettingController extends Controller
             return new RedirectResponse($this->container->get('router')->generate('fos_user_security_login'));
         }
 
-        $event = new GetResponseUserEvent($user, $request);
-        $this->eventDispatcher->dispatch(FOSUserEvents::RESETTING_RESET_INITIALIZE, $event);
+//        $event = new GetResponseUserEvent($user, $request);
+//        $this->eventDispatcher->dispatch(FOSUserEvents::RESETTING_RESET_INITIALIZE, $event);
 
-        if (null !== $event->getResponse()) {
-            return $event->getResponse();
-        }
+//        if (null !== $event->getResponse()) {
+//            return $event->getResponse();
+//        }
 
         $form = $this->formFactory->createForm();
         $form->setData($user);
@@ -177,10 +179,10 @@ class ResettingController extends Controller
                 $response = new RedirectResponse($url);
             }
 
-            $this->eventDispatcher->dispatch(
-                FOSUserEvents::RESETTING_RESET_COMPLETED,
-                new FilterUserResponseEvent($user, $request, $response)
-            );
+//            $this->eventDispatcher->dispatch(
+//                FOSUserEvents::RESETTING_RESET_COMPLETED,
+//                new FilterUserResponseEvent($user, $request, $response)
+//            );
 
             return $response;
         }
