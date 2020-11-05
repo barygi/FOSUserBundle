@@ -1,5 +1,5 @@
 {
-    "name": "amashukov/user-bundle",
+    "name": "barygi/user-bundle",
     "type": "symfony-bundle",
     "description": "Symfony FOSUserBundle",
     "keywords": [
@@ -15,6 +15,10 @@
         {
             "name": "Andrey Mashukov",
             "email": "a.mashukoff@gmail.com"
+        },
+        {
+            "name": "Illya Zhabran",
+            "email": "illko997@gmail.com"
         },
         {
             "name": "Thibault Duplessis"
